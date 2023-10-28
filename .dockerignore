@@ -1,0 +1,13 @@
+# Dev atrifacts
+/dist
+
+# Node.js
+node_modules/
+
+# tsc incremental cache
+tsconfig.tsbuildinfo
+
+# Editors & OS sprecific
+.idea/
+.vscode/
+.DS_Store

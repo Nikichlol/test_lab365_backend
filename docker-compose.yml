@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: test_lab365_backend
+    depends_on:
+      - mongo
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    command: npm run start:prod
+    environment:
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_HOST: mongo
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      SECRET_KEY: ${SECRET_KEY}
+      SECRET_SALT: ${SECRET_SALT}
+      APP_PORT: ${APP_PORT}
+
+  mongo:
+    image: mongo:7.0
+    volumes:
+      - db-data:/data/db
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+
+volumes:
+  db-data:
