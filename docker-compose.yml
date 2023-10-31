@@ -1,25 +1,43 @@
 version: '3.1'
 
 services:
-  app:
+  auth:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: test_lab365_backend
+    image: lab365_auth_service
     depends_on:
       - mongo
     ports:
-      - ${APP_PORT}:${APP_PORT}
-    command: npm run start:prod
+      - 3001:3001
+    command: npm run start auth
     environment:
       MONGO_DATABASE: ${MONGO_DATABASE}
       MONGO_USERNAME: ${MONGO_USERNAME}
       MONGO_PASSWORD: ${MONGO_PASSWORD}
       MONGO_HOST: mongo
+      AUTH_SERVICE_HOST: auth
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       SECRET_KEY: ${SECRET_KEY}
       SECRET_SALT: ${SECRET_SALT}
-      APP_PORT: ${APP_PORT}
+
+  tasks:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: lab365_tasks_service
+    depends_on:
+      - mongo
+      - auth
+    ports:
+      - 3002:3002
+    command: npm run start tasks
+    environment:
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_HOST: mongo
+      AUTH_SERVICE_HOST: auth
 
   mongo:
     image: mongo:7.0

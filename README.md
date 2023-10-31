@@ -26,17 +26,23 @@ $ cp .env.example .env
 $ docker compose up mongo --build
 ```
 
-### Run server
+### Run auth service
 
 ```bash
-$ npm run start:dev
+$ npm run start:dev auth
+```
+
+### Run tasks service
+
+```bash
+$ npm run start:dev tasks
 ```
 
 ## List of api for using
 
-1. /signup POST
-2. /signin POST
-3. /user GET
-4. /tasks POST
-5. /tasks GET
-6. /tasks DELETE
+1. /signup POST (port 3001)
+2. /signin POST (port 3001)
+3. /user GET (port 3001)
+4. /tasks POST (port 3002)
+5. /tasks GET (port 3002)
+6. /tasks DELETE (port 3002)
